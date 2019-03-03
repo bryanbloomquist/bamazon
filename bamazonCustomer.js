@@ -22,7 +22,7 @@ function start() {
         if (err) throw err;
         console.table(res);
         promptUser(res);
-        connection.end();
+        // connection.end();
     })
 }
 
@@ -46,43 +46,41 @@ function promptUser(res) {
             message: "How Many Units Would You Like To Buy?"
         }
     ]).then(function(answer){
-        console.log(answer.product, answer.amount);
-        console.log(res[answer.product].id);
-        var chosenItem;
-        for (var i = 0; i < res.length; i++) {
-            if (res[i].id === answer.product) {
-                chosenItem = res[i];
-                console.log("chosen item = "+chosenItem);
-            }
-        }
+        var chosenItem = res[answer.product -1];
 
 //  Once the customer has placed the order, your application should check if your store has enough of the product 
 //      to meet the customer's request.
 //      If not, the app should log a phrase like `Insufficient quantity!`, and then prevent the order from going through.
 
-        // if (chosenItem.stock_quantity < answer.amount) {
-        //     console.log("Insufficient Quantity.");
-        //     promptUser();
-        // }
+        connection.query("SELECT * FROM products WHERE id = "+chosenItem.id, function(err, res) {
+            if (err) throw err;
+            if (answer.amount > parseInt(res[0].stock_quantity)) {
+                console.log("Insufficient Quantity.");
+                promptUser();
+                connection.end();
+            }
 
-//  However, if your store _does_ have enough of the product, you should fulfill the customer's order.
+        //  However, if your store _does_ have enough of the product, you should fulfill the customer's order.
 //      This means updating the SQL database to reflect the remaining quantity.
 //      Once the update goes through, show the customer the total cost of their purchase.        
 
-    //     else if (chosenItem.stock_quantity >= answer.amount) {
-    //         connection.query("UPDATE products SET ? WHERE ?",
-    //             [
-    //                 {
-    //                     stock_quantity: stock_quantity - answer.amount
-    //                 },{
-    //                     id: answer.product
-    //                 }
-    //             ],
-    //             function(err) {
-    //                 if (err) throw err;
-    //                 console.log("Total Cost = " + answer.amount * chosenItem.price);
-    //             }
-    //         )
-    //     };
+            else {
+                var newQuantity = parseInt(res[0].stock_quantity) - parseInt(answer.amount);
+                connection.query("UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock_quantity: newQuantity
+                        },{
+                            id: answer.product
+                        }
+                    ],
+                    function(err) {
+                        if (err) throw err;
+                        console.log("Total Cost = " + answer.amount * chosenItem.price);
+                        connection.end();
+                    }
+                )
+            }
+        })
     })
 }
