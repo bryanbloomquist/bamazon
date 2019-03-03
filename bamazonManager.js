@@ -55,13 +55,63 @@ function seeInventory () {
 //  If a manager selects `View Low Inventory`, then it should list all items with an inventory count lower than five.
 
 function lowInventory () {
-    
+    connection.query("SELECT id, product_name, price, stock_quantity FROM products WHERE stock_quantity < 5", function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        start();
+    })
 }
 
 //  If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
 
 function addInventory () {
-    
+    connection.query("SELECT id, product_name, stock_quantity FROM products", function(err, res) {
+        if (err) throw err;
+        inquirer.prompt ([
+            {
+                name: "choice",
+                type: "rawlist",
+                choices: function() {
+                    var choiceArray = [];
+                    for (var i=0; i < res.length; i++) {
+                        choiceArray.push(res[i].product_name);
+                    }
+                    return choiceArray;
+                },
+                message: "Which Item Would You Like To Add More Inventory To?"
+            },{
+                name: "amount",
+                type: "input",
+                message: "How Many Items Would You Like To Add To The Inventory?",
+                validate: function(input) {
+                    var valid = !isNaN(parseFloat(input));
+                    return valid || "Please Enter A Number";
+                },
+                filter: Number
+            }
+        ]).then(function(answer) {
+            var chosenItem;
+            for (var i=0; i < res.length; i++) {
+                if (res[i].product_name === answer.choice) {
+                    chosenItem = res[i];
+                }
+            }
+            var newQuantity = parseInt(chosenItem.stock_quantity) + parseInt(answer.amount)
+            connection.query("UPDATE products SET ? WHERE ?",
+                [
+                    {
+                        stock_quantity: newQuantity
+                    },{
+                        id: chosenItem.id
+                    }
+                ],
+                function(err) {
+                    if (err) throw err;
+                    start();
+                }
+            )
+        })
+    })
 }
 
 //  If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
