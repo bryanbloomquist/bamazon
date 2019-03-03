@@ -22,7 +22,6 @@ function start() {
         if (err) throw err;
         console.table(res);
         promptUser(res);
-        // connection.end();
     })
 }
 
