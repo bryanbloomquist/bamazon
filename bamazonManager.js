@@ -109,7 +109,7 @@ function addInventory () {
                 ],
                 function(err) {
                     if (err) throw err;
-                    seeInventory();
+                    start();
                 }
             )
         })
@@ -119,48 +119,64 @@ function addInventory () {
 //  If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
 
 function newInventory () {
-    inquirer.prompt([
-        {
-            name: "product_name",
-            type: "input",
-            message: "Name Of New Inventory Item?"
-        },{
-            name: "department_name",
-            type: "list",
-            message: "Which Department?",
-            choices: ["DVD/Blu-ray" , "Books" , "Vinyl Records"]
-        },{
-            name: "price",
-            type: "input",
-            message: "Price?",
-            validate: function(value){
-                var valid = !isNaN(parseFloat(value));
-                return valid || "Please Enter A Number";
-            },
-            filter: Number
-        },{
-            name: "stock_quantity",
-            type: "input",
-            message: "How Many?",
-            validate: function(value){
-                var valid = !isNaN(parseFloat(value));
-                return valid || "Please Enter A Number";
-            },
-            filter: Number
-        }
-    ]).then(function(answer){
-        connection.query(
-            "INSERT INTO products SET ?",
+    connection.query("SELECT department_name FROM departments", function(err, res) {
+        if (err) throw err;
+        inquirer.prompt([
             {
-                product_name: answer.product_name,
-                department_name: answer.department_name,
-                price: answer.price,
-                stock_quantity: answer.stock_quantity
-            },
-            function(err) {
-                if (err) throw err;
-                seeInventory();
+                name: "product_name",
+                type: "input",
+                message: "Name Of New Inventory Item?",
+                validate: function(value) {
+                    if (value === "") {
+                        return "Please Enter Product Name"
+                    } else {
+                        return true;
+                    }
+                }    
+            },{
+                name: "department_name",
+                type: "rawlist",
+                choices: function() {
+                    var choiceArray = [];
+                    for (var i=0; i < res.length; i++) {
+                        choiceArray.push(res[i].department_name);
+                    }
+                    return choiceArray;
+                },
+                message: "Which Department?"
+            },{
+                name: "price",
+                type: "input",
+                message: "Price?",
+                validate: function(value){
+                    var valid = !isNaN(parseFloat(value));
+                    return valid || "Please Enter A Number";
+                },
+                filter: Number
+            },{
+                name: "stock_quantity",
+                type: "input",
+                message: "How Many?",
+                validate: function(value){
+                    var valid = !isNaN(parseFloat(value));
+                    return valid || "Please Enter A Number";
+                },
+                filter: Number
             }
-        )
+        ]).then(function(answer){
+            connection.query(
+                "INSERT INTO products SET ?",
+                {
+                    product_name: answer.product_name,
+                    department_name: answer.department_name,
+                    price: answer.price,
+                    stock_quantity: answer.stock_quantity
+                },
+                function(err) {
+                    if (err) throw err;
+                    start();
+                }
+            )
+        })
     })
 }

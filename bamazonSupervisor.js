@@ -55,21 +55,57 @@ function start() {
 
 function viewSales () {
     connection.query(
-        "SELECT" 
-            +" departments.department_id AS department_id,"
-            +" departments.department_name AS department_name,"
-            +" departments.over_head_costs AS over_head_costs,"
-            +" SUM(products.product_sales) AS product_sales,"
-            +" SUM(products.product_sales) - departments.over_head_costs AS total_profit"
-        +" FROM departments"
-        +" INNER JOIN products ON departments.department_name = products.department_name"
-        +" GROUP BY departments.department_id", function(err, res) {
+        "SELECT " +
+            "departments.department_id AS 'Department ID', " +
+            "departments.department_name AS 'Department Name', " +
+            "departments.over_head_costs AS 'Over Head Costs', " +
+            "SUM(products.product_sales) AS 'Product Sales', " +
+            "SUM(products.product_sales) - departments.over_head_costs AS 'Total Profit' " +
+        "FROM departments " +
+        "LEFT JOIN products ON departments.department_name = products.department_name " +
+        "GROUP BY departments.department_id", function(err, res) {
             if (err) throw err;
             console.table(res);
             start();
     })
 }
 
-function newDepartment () {
+// There were no parameters/instructions for this final part of the assignment
 
+function newDepartment () {
+    inquirer.prompt([
+        {
+            name: "department_name",
+            type: "input",
+            message: "Name Of New Department?",
+            validate: function(value) {
+                if (value === "") {
+                    return "Please Enter Department Name"
+                } else {
+                    return true;
+                }
+            }
+        },{
+            name: "over_head_costs",
+            type: "input",
+            message: "Over Head Costs?",
+            validate: function(value){
+                var valid = !isNaN(parseFloat(value));
+                return valid || "Please Enter A Number";
+            },
+            filter: Number
+        }
+    ]).then(function(answer){
+        connection.query(
+            "INSERT INTO departments SET ?",
+            {
+                department_name: answer.department_name,
+                over_head_costs: answer.over_head_costs
+            },
+            function(err) {
+                if (err) throw err;
+                start();
+            }
+        )
+    })
 }
