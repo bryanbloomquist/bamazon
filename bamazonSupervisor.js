@@ -52,7 +52,20 @@ function start() {
 //      **HINT**: There may be an NPM package that can log the table to the console. What's is it? Good question :)
 
 function viewSales () {
-
+    connection.query(
+        "SELECT" 
+            +" departments.department_id AS department_id,"
+            +" departments.department_name AS department_name,"
+            +" departments.over_head_costs AS over_head_costs,"
+            +" SUM(products.product_sales) AS product_sales,"
+            +" SUM(products.product_sales) - departments.over_head_costs AS total_profit"
+        +" FROM departments"
+        +" INNER JOIN products ON departments.department_name = products.department_name"
+        +" GROUP BY departments.department_id", function(err, res) {
+            if (err) throw err;
+            console.table(res);
+            start();
+    })
 }
 
 function newDepartment () {

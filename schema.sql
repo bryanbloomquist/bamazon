@@ -57,17 +57,17 @@ SELECT * FROM products;
 --   	* over_head_costs (A dummy number you set for each department)
 
 CREATE TABLE departments (
-	id INT NOT NULL AUTO_INCREMENT,
+	department_id INT NOT NULL AUTO_INCREMENT,
 	department_name VARCHAR (50) NOT NULL,
     over_head_costs DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (id)
+    PRIMARY KEY (department_id)
 );
 
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("DVD/Blu-ray" , 1000);
+VALUES ("DVD/Blu-ray" , 500);
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Books" , 1500);
+VALUES ("Books" , 500);
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Vinyl Albums" , 900);
+VALUES ("Vinyl Albums" , 500);
 
 SELECT * FROM departments;
