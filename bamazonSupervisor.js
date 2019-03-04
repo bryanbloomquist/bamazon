@@ -1,14 +1,16 @@
 //  Challenge #3: Supervisor View (Final Level)
 //  Create another Node app called `bamazonSupervisor.js`. 
 
+require("dotenv").config();
 var mysql = require("mysql");
 var inquirer = require("inquirer");
+var keys = require("./keys.js");
 
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
-    user: "root",
-    password: "", //ENTER YOUR PASSWORD HERE//
+    user: keys.mySQL.id,
+    password: keys.mySQL.secret,
     database: "bamazon"
 });
 
