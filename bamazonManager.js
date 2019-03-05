@@ -2,6 +2,8 @@
 //  Create a new Node application called `bamazonManager.js`. Running this application will:
 
 require("dotenv").config();
+require("console.table");
+var clear = require("clear");
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var keys = require("./keys.js");
@@ -16,8 +18,16 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
+    clear();
+    managerScreen();
     start();
 });
+
+function managerScreen (){
+    console.log("==================================================================================================");
+    console.log("==[($)]=[($)]=[($)]=[($)]=[($)]=[($)]==  BAMAZON  MANAGER  ==[($)]=[($)]=[($)]=[($)]=[($)]=[($)]==")
+    console.log("==================================================================================================");
+}
 
 //  List a set of menu options:
 //      View Products for Sale / View Low Inventory / Add to Inventory / Add New Product
@@ -47,8 +57,10 @@ function start() {
 //      the item IDs, names, prices, and quantities.
 
 function seeInventory () {
-    connection.query("SELECT id, product_name, price, stock_quantity FROM products", function(err, res) {
+    clear();
+    connection.query("SELECT id AS 'ID', product_name AS 'Product Name', price AS 'Price', stock_quantity AS 'Stock Quantity' FROM products", function(err, res) {
         if (err) throw err;
+        managerScreen();
         console.table(res);
         start();
     })
@@ -57,8 +69,10 @@ function seeInventory () {
 //  If a manager selects `View Low Inventory`, then it should list all items with an inventory count lower than five.
 
 function lowInventory () {
-    connection.query("SELECT id, product_name, price, stock_quantity FROM products WHERE stock_quantity < 5", function(err, res) {
+    clear();
+    connection.query("SELECT id AS 'ID', product_name AS 'Product Name', price AS 'Price', stock_quantity AS 'Stock Quantity' FROM products WHERE stock_quantity < 5", function(err, res) {
         if (err) throw err;
+        managerScreen();
         console.table(res);
         start();
     })
@@ -67,6 +81,8 @@ function lowInventory () {
 //  If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
 
 function addInventory () {
+    clear();
+    managerScreen();
     connection.query("SELECT id, product_name, stock_quantity FROM products", function(err, res) {
         if (err) throw err;
         inquirer.prompt ([
@@ -119,6 +135,8 @@ function addInventory () {
 //  If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
 
 function newInventory () {
+    clear();
+    managerScreen();
     connection.query("SELECT department_name FROM departments", function(err, res) {
         if (err) throw err;
         inquirer.prompt([

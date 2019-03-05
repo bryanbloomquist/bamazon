@@ -35,17 +35,17 @@ VALUES ("Star Wars - The Complete Saga Episodes I-VI Blu-ray" , "DVD/Blu-ray" , 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("The Making Of Star Wars: The Definitive Story Behind The Original Film" , "Books" , 81.25 , 5);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Star Wars: A New Hope (Original Motion Picture Soundtrack) Vinyl" , "Vinyl Albums" , 79.12 , 4);
+VALUES ("Star Wars: A New Hope (Original Motion Picture Soundtrack) Vinyl" , "Albums" , 79.12 , 4);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Solid State by Matt Fraction" , "Books" , 27.54 , 9);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Solid State by Jonathan Coulton" , "Vinyl Albums" , 28.49 , 2);
+VALUES ("Solid State by Jonathan Coulton" , "Albums" , 28.49 , 2);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Dungeons And Dragons Art And Arcana: A Visual History" , "Books" , 50.00 , 7);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Dungeons And Dragons: The Complete Animated Series DVD" , "DVD/Blu-ray" , 22.99 , 11);
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("Led Zeppelin IV Remastered Original" , "Vinyl Albums" , 23.80 , 15);
+VALUES ("Led Zeppelin IV Remastered Original" , "Albums" , 23.80 , 15);
 
 SELECT * FROM products;
 
@@ -68,6 +68,6 @@ VALUES ("DVD/Blu-ray" , 500);
 INSERT INTO departments (department_name, over_head_costs)
 VALUES ("Books" , 500);
 INSERT INTO departments (department_name, over_head_costs)
-VALUES ("Vinyl Albums" , 500);
+VALUES ("Albums" , 500);
 
 SELECT * FROM departments;

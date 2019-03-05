@@ -2,6 +2,8 @@
 //  Create another Node app called `bamazonSupervisor.js`. 
 
 require("dotenv").config();
+require("console.table");
+var clear = require("clear");
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 var keys = require("./keys.js");
@@ -16,8 +18,16 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
+    clear();
+    supervisorScreen();
     start();
 });
+
+function supervisorScreen (){
+    console.log("==================================================================================================");
+    console.log("==[($)]=[($)]=[($)]=[($)]=[($)]=[($)]== BAMAZON SUPERVISOR ==[($)]=[($)]=[($)]=[($)]=[($)]=[($)]==")
+    console.log("==================================================================================================");
+}
 
 //  Running this application will list a set of menu options:
 //      View Product Sales by Department
@@ -54,6 +64,8 @@ function start() {
 //      **HINT**: There may be an NPM package that can log the table to the console. What's is it? Good question :)
 
 function viewSales () {
+    clear();
+    supervisorScreen();
     connection.query(
         "SELECT " +
             "departments.department_id AS 'Department ID', " +
@@ -73,6 +85,8 @@ function viewSales () {
 // There were no parameters/instructions for this final part of the assignment
 
 function newDepartment () {
+    clear();
+    supervisorScreen();
     inquirer.prompt([
         {
             name: "department_name",
