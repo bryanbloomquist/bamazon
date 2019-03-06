@@ -19,7 +19,6 @@ var connection = mysql.createConnection({
     database: "bamazon"
 });
 
-// Establish the connection with MySQL database
 connection.connect(function(err) {
     if (err) throw err;
     start();
@@ -32,14 +31,12 @@ function start() {
     connection.query("SELECT id, product_name AS 'Product', price AS 'Price' FROM products", function(err, res) {
         if (err) throw err;
         for (var i=0; i < res.length; i++) {
-            choiceArray.push(res[i].id); // This is used later to validate purchased item
-
+            choiceArray.push(res[i].id);
         }
         console.log("==================================================================================");
-        console.log("=[($)]=[($)]=[($)]=[($)]=[($)]= WELCOME TO BAMAZON =[($)]=[($)]=[($)]=[($)]=[($)]=")
-        console.log("==================================================================================");
+        console.log("[($)] [($)] [($)] [($)] [($)]  WELCOME  TO  BAMAZON  [($)] [($)] [($)] [($)] [($)]")
+        console.log("==================================================================================\n");
         console.table(res);
-        console.log("==================================================================================");
         promptUser(res);
     })
 }
@@ -74,7 +71,7 @@ function promptUser(res) {
         connection.query("SELECT * FROM products WHERE id = "+chosenItem.id, function(err, res) {
             if (err) throw err;
             if (answer.amount > parseInt(res[0].stock_quantity)) {
-                // If not, the app should log a phrase like `Insufficient quantity!`, and then prevent the order from going through.
+                // If not, it should log the phrase `Insufficient quantity!`, and prevent order from going through.
                 console.log("Insufficient Quantity! We Have "+res[0].stock_quantity+" In Stock.");
                 end();
             }

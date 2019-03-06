@@ -1,5 +1,5 @@
 //  Challenge #2: Manager View (Next Level)
-//  Create a new Node application called `bamazonManager.js`. Running this application will:
+//  Create a new Node application called `bamazonManager.js`.
 
 require("dotenv").config();
 require("console.table");
@@ -24,18 +24,16 @@ connection.connect(function(err) {
 });
 
 function managerScreen (){
-    console.log("==================================================================================================");
-    console.log("==[($)]=[($)]=[($)]=[($)]=[($)]=[($)]==  BAMAZON  MANAGER  ==[($)]=[($)]=[($)]=[($)]=[($)]=[($)]==")
-    console.log("==================================================================================================");
+    console.log("=======================================");
+    console.log("[($)] [($)] BAMAZON MANAGER [($)] [($)]")
+    console.log("=======================================\n");
 }
 
-//  List a set of menu options:
-//      View Products for Sale / View Low Inventory / Add to Inventory / Add New Product
-
+//  List a set of menu options: View Products for Sale / View Low Inventory / Add to Inventory / Add New Product
 function start() {
     inquirer.prompt ({
         name: "option",
-        type: "list",
+        type: "rawlist",
         message: "What would you like to do?",
         choices: ["View Products for Sale","View Low Inventory","Add To Inventory","Add New Product","Exit"]
     }).then(function(answer) {
@@ -53,9 +51,7 @@ function start() {
     });
 }
 
-//  If a manager selects `View Products for Sale`, the app should list every available item: 
-//      the item IDs, names, prices, and quantities.
-
+// `View Products for Sale`should list every available item: the item IDs, names, prices, and quantities.
 function seeInventory () {
     clear();
     connection.query("SELECT id AS 'ID', product_name AS 'Product Name', price AS 'Price', stock_quantity AS 'Stock Quantity' FROM products", function(err, res) {
@@ -66,8 +62,7 @@ function seeInventory () {
     })
 }
 
-//  If a manager selects `View Low Inventory`, then it should list all items with an inventory count lower than five.
-
+// `View Low Inventory` should list all items with an inventory count lower than five.
 function lowInventory () {
     clear();
     connection.query("SELECT id AS 'ID', product_name AS 'Product Name', price AS 'Price', stock_quantity AS 'Stock Quantity' FROM products WHERE stock_quantity < 5", function(err, res) {
@@ -78,8 +73,7 @@ function lowInventory () {
     })
 }
 
-//  If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
-
+//  `Add to Inventory` should display a prompt that will let the manager "add more" of any item currently in the store.
 function addInventory () {
     clear();
     managerScreen();
@@ -132,8 +126,7 @@ function addInventory () {
     })
 }
 
-//  If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
-
+// `Add New Product` should allow the manager to add a completely new product to the store.
 function newInventory () {
     clear();
     managerScreen();

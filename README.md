@@ -4,7 +4,11 @@
 
 In this activity, you'll be creating an Amazon-like storefront with the MySQL skills you learned this unit. The app will take in orders from customers and deplete stock from the store's inventory. As a bonus task, you can program your app to track product sales across your store's departments and then provide a summary of the highest-grossing departments in the store.
 
+[DemoVideo](http://bit.ly/bamazon-demo)
+
 ### Challenge #1: Customer View (Minimum Requirement)
+
+![Customer View Screenshot](bamazon-customer.png)
 
 1. Create a MySQL Database called `bamazon`.
 2. Then create a Table inside of that database called `products`.
@@ -27,6 +31,8 @@ In this activity, you'll be creating an Amazon-like storefront with the MySQL sk
 
 ### Challenge #2: Manager View (Next Level)
 
+![Manager View Screenshot](bamazon-manager.png)
+
 * Create a new Node application called `bamazonManager.js`. Running this application will:
   * List a set of menu options:
     * View Products for Sale
@@ -40,6 +46,8 @@ In this activity, you'll be creating an Amazon-like storefront with the MySQL sk
 
 ### Challenge #3: Supervisor View (Final Level)
 
+![Supervisor View Screenshot](bamazon-supervisor.png)
+
 1. Create a new MySQL table called `departments`. Your table should include the following columns:
    * department_id
    * department_name
@@ -50,9 +58,9 @@ In this activity, you'll be creating an Amazon-like storefront with the MySQL sk
    * View Product Sales by Department
    * Create New Department
 4. When a supervisor selects `View Product Sales by Department`, the app should display a summarized table in their terminal/bash window. Use the table below as a guide.
-    | department_id | department_name | over_head_costs | product_sales | total_profit |
-    | ------------- | --------------- | --------------- | ------------- | ------------ |
-    | 01            | Electronics     | 10000           | 20000         | 10000        |
-    | 02            | Clothing        | 60000           | 100000        | 40000        |
+  | department_id | department_name | over_head_costs | product_sales | total_profit |
+  | ------------- | --------------- | --------------- | ------------- | ------------ |
+  | 01            | Electronics     | 10000           | 20000         | 10000        |
+  | 02            | Clothing        | 60000           | 100000        | 40000        |
 5. The `total_profit` column should be calculated on the fly using the difference between `over_head_costs` and `product_sales`. `total_profit` should not be stored in any database. You should use a custom alias.
 6. If you can't get the table to display properly after a few hours, then feel free to go back and just add `total_profit` to the `departments` table.
