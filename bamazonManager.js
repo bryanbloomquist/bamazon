@@ -33,7 +33,7 @@ function managerScreen (){
 function start() {
     inquirer.prompt ({
         name: "option",
-        type: "rawlist",
+        type: "list",
         message: "What would you like to do?",
         choices: ["View Products for Sale","View Low Inventory","Add To Inventory","Add New Product","Exit"]
     }).then(function(answer) {
@@ -82,7 +82,7 @@ function addInventory () {
         inquirer.prompt ([
             {
                 name: "choice",
-                type: "rawlist",
+                type: "list",
                 choices: function() {
                     var choiceArray = [];
                     for (var i=0; i < res.length; i++) {
@@ -146,7 +146,7 @@ function newInventory () {
                 }    
             },{
                 name: "department_name",
-                type: "rawlist",
+                type: "list",
                 choices: function() {
                     var choiceArray = [];
                     for (var i=0; i < res.length; i++) {
